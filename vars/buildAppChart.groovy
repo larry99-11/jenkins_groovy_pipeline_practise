@@ -7,12 +7,12 @@ vars/
   (full pipeline lives here)         (@Library + one line call)
 */
 import org.helpers.Docker
-//import org.helpers.Helm
+import org.helpers.Helm
 
 def call() {
 
     def docker = new Docker(this)
-    /def helm = new Helm(this)
+    def helm = new Helm(this)
 
     pipeline {
 
