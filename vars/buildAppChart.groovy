@@ -12,7 +12,7 @@ import org.helpers.Docker
 def call() {
 
     def docker = new Docker(this)
-    //def helm = new Helm(this)
+    /def helm = new Helm(this)
 
     pipeline {
 
@@ -80,6 +80,14 @@ def call() {
                 steps {
                     script {
                         docker.docker_push(IMAGE_TAG, DOCKERHUB_CREDENTIALS)
+                    }
+                }
+            }
+
+            stage('Helm Deploy') {
+                steps {
+                    script {
+                        helm.deploy(IMAGE_NAME, HELM_CHART_DIR, "${DOCKERHUB_USER}/${IMAGE_NAME}", GIT_SHORT_SHA, KUBE_NAMESPACE)
                     }
                 }
             }
