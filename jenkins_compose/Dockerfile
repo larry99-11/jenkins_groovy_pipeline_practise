@@ -7,6 +7,8 @@ RUN jenkins-plugin-cli --plugins \
     pipeline-stage-view \
     git \
     credentials-binding \
-    blueocean
+    blueocean \
+    pipeline-utility-steps \
+    workflow-aggregator \
 
 
