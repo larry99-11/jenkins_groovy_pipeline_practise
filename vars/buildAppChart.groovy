@@ -7,7 +7,7 @@ vars/
   (full pipeline lives here)         (@Library + one line call)
 */
 import org.helpers.Docker
-import org.helpers.Helm
+//import org.helpers.Helm
 
 def call() {
 
@@ -63,7 +63,7 @@ def call() {
                     echo "IMAGE_TAG:             ${IMAGE_TAG}"
                 }
             }
-            
+
             stage('Docker build') {
                 steps {
                     script {
