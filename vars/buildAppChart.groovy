@@ -26,6 +26,8 @@ def call() {
              DOCKERHUB_CREDENTIALS  = ''
              IMAGE_TAG              = ''
              GIT_SHORT_SHA          = ''
+             DOCKERFILE_PATH        = ''    
+             BUILD_CONTEXT          = ''
         }
 
         stages {
@@ -38,6 +40,8 @@ def call() {
                         IMAGE_NAME             = props.IMAGE_NAME
                         DOCKERHUB_USER         = props.DOCKERHUB_USER
                         DOCKERHUB_CREDENTIALS  = props.DOCKERHUB_CREDENTIALS
+                        DOCKERFILE_PATH        = props.DOCKERFILE_PATH   
+                        BUILD_CONTEXT          = props.BUILD_CONTEXT
 
                     }
                 }
@@ -67,7 +71,7 @@ def call() {
             stage('Docker build') {
                 steps {
                     script {
-                        docker.docker_build(IMAGE_TAG) 
+                        docker.docker_build(IMAGE_TAG,DOCKERFILE_PATH, BUILD_CONTEXT) 
                     }                   
                 }
             }

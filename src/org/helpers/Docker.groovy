@@ -8,8 +8,8 @@ class Docker {
         this.steps = steps
     }
 
-    def docker_build(String imageTag) {
-        steps.sh "docker build -t ${imageTag} ."
+    def docker_build(String imageTag, String dockerFilePath, String dockerFileContext) {
+        steps.sh "docker build -t ${imageTag} -f ${dockerFilePath} ${dockerFileContext}"
     }
 
     def docker_push(String imageTag, String credentialsId) {
