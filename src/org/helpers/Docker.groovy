@@ -15,7 +15,7 @@ class Docker {
     def docker_push(String imageTag, String credentialsId) {
         steps.withCredentials([steps.usernamePassword(
             credentialsId: credentialsId,
-            usernameVariable: 'DH_USER' // <- Jenkins takes usernameVariable and passwordVariable which are the names of the environment variables set in Jenkins secrets
+            usernameVariable: 'DH_USER', // <- Jenkins takes usernameVariable and passwordVariable which are the names of the environment variables set in Jenkins secrets
             passwordVariable: 'DH_PASS'
         )]) {
             steps.sh """
