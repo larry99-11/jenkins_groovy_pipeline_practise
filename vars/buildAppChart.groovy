@@ -6,19 +6,26 @@ vars/
   buildAppChart.groovy  ←────────── Jenkinsfile
   (full pipeline lives here)         (@Library + one line call)
 */
-
+import org.helpers.Docker
+import org.helpers.Helm
 
 def call() {
+
+    def docker = new Docker(this)
+    def helm = new Helm(this)
+
     pipeline {
 
         agent any
 
         environment {
-            KUBE_NAMESPACE         = ''
-            HELM_CHART_DIR         = ''
-            IMAGE_NAME             = ''
-            DOCKERHUB_USER         = ''
-            DOCKERHUB_CREDENTIALS  = ''
+             KUBE_NAMESPACE         = ''
+             HELM_CHART_DIR         = ''
+             IMAGE_NAME             = ''
+             DOCKERHUB_USER         = ''
+             DOCKERHUB_CREDENTIALS  = ''
+             IMAGE_TAG              = ''
+             GIT_SHORT_SHA          = ''
         }
 
         stages {
@@ -40,12 +47,11 @@ def call() {
                 steps {
                     checkout scm
                     script {
-                        env.GIT_SHORT_SHA = sh(script: 'git rev-parse --short HEAD', returnStdout: true).trim()
-                        env.IMAGE_TAG = "${DOCKERHUB_USER}/${IMAGE_NAME}:${GIT_SHORT_SHA}"
+                        GIT_SHORT_SHA = sh(script: 'git rev-parse --short HEAD', returnStdout: true).trim()
+                        IMAGE_TAG = "${DOCKERHUB_USER}/${IMAGE_NAME}:${GIT_SHORT_SHA}"
                     }
                 }
             }
-
             stage('Debug') {
                 steps {
                     echo "KUBE_NAMESPACE:        ${KUBE_NAMESPACE}"
@@ -55,6 +61,31 @@ def call() {
                     echo "DOCKERHUB_CREDENTIALS: ${DOCKERHUB_CREDENTIALS}"
                     echo "GIT_SHORT_SHA:         ${GIT_SHORT_SHA}"
                     echo "IMAGE_TAG:             ${IMAGE_TAG}"
+                }
+            }
+            
+            stage('Docker build') {
+                steps {
+                    script {
+                        docker.docker_build(IMAGE_TAG) 
+                    }                   
+                }
+            }
+
+            stage('Docker push') {
+                steps {
+                    script {
+                        docker.docker_push(IMAGE_TAG, DOCKERHUB_CREDENTIALS)
+                    }
+                }
+            }
+        }
+    
+    // clean up the image locally via removing it and log out
+        post {
+            always {
+                script {
+                    docker.docker_cleanup(IMAGE_TAG)
                 }
             }
         }
