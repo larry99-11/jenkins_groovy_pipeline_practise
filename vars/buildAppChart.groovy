@@ -12,7 +12,7 @@ import org.helpers.Docker
 def call() {
 
     def docker = new Docker(this)
-    def helm = new Helm(this)
+    //def helm = new Helm(this)
 
     pipeline {
 
