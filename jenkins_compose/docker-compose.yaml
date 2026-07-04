@@ -5,9 +5,18 @@ services:
     ports:
       - "8080:8080"
       - "50000:50000"
+    extra_hosts:
+      - "personal-dev-control-plane:172.18.0.2"
     volumes:
       - jenkins_home:/var/jenkins_home
       - /var/run/docker.sock:/var/run/docker.sock
+      - ~/.kube/configs/np-kconfig.yaml:/var/jenkins_home/.kube/config:ro # Add local kube config so jenkins can access cluster
+    networks:
+      - kind
+      
+networks:
+  kind:
+    external: true
 
 volumes:
   jenkins_home:
