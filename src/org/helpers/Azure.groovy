@@ -9,17 +9,18 @@ class Azure {
         this.steps = steps
     }
 
-    def acr_push(String imageTag, String credentialsId, String acrName) {
+    def acr_push(String dockerImageTag,String acrImageTag, String credentialsId, String acrName) {
         steps.withCredentials([steps.usernamePassword(
             credentialsId: credentialsId,
             usernameVariable: 'ACR_USER', // <- Jenkins takes usernameVariable and passwordVariable which are the names of the environment variables set in Jenkins secrets
             passwordVariable: 'ACR_PASS'
         )]) {
             steps.sh """
+                docker tag ${dockerImageTag} ${acrImageTag} 
                 echo \$ACR_PASS | docker login ${acrName}.azurecr.io \
                     -u \$ACR_USER \
                     --password-stdin
-                docker push ${imageTag}
+                docker push ${acrImageTag}
             """
         }
     }

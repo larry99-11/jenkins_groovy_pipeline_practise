@@ -87,7 +87,7 @@ def call() {
             stage('ACR push') {
                 steps {
                     script {
-                        azure.acr_push(ACR_IMAGE_TAG, ACR_CREDENTIALS, ACR_NAME)
+                        azure.acr_push(IMAGE_TAG, ACR_IMAGE_TAG, ACR_CREDENTIALS, ACR_NAME)
                     }
                 }
             }
