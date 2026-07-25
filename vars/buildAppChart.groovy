@@ -99,7 +99,7 @@ def call() {
                     //}
                 //}
             //}
-        //}
+        }
     
     // clean up the image locally via removing it and log out
         post {
