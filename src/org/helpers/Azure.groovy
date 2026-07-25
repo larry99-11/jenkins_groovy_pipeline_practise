@@ -18,7 +18,7 @@ class Azure {
             steps.sh """
                 echo \$ACR_PASS | docker login ${acrName}.azurecr.io \
                     -u \$ACR_USER \
-                    --pasword-stdin
+                    --password-stdin
                 docker push ${imageTag}
             """
         }
