@@ -92,14 +92,14 @@ def call() {
                 }
             }
 
-            stage('Helm Deploy') {
-                steps {
-                    script {
-                        helm.deploy(IMAGE_NAME, HELM_CHART_DIR, "${DOCKERHUB_USER}/${IMAGE_NAME}", GIT_SHORT_SHA, KUBE_NAMESPACE)
-                    }
-                }
-            }
-        }
+            //stage('Helm Deploy') {
+              //  steps {
+                //    script {
+                  //      helm.deploy(IMAGE_NAME, HELM_CHART_DIR, "${DOCKERHUB_USER}/${IMAGE_NAME}", GIT_SHORT_SHA, KUBE_NAMESPACE)
+                    //}
+                //}
+            //}
+        //}
     
     // clean up the image locally via removing it and log out
         post {

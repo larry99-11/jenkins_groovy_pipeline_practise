@@ -9,3 +9,5 @@ az deployment sub create \
   --location ${LOCATION} \
   --template-file ${TEMP_FILE_LOCATION} \
   --parameters ${PARAMS_FILE_LOCATION}
+
+# add some functionaluty to view images in ACR??
