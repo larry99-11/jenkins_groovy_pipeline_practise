@@ -9,11 +9,13 @@ vars/
 */
 import org.helpers.Docker
 import org.helpers.Helm
+import org.helpers.Azure
 
 def call() {
     // Initialising utiliy classes
     def docker = new Docker(this)
     def helm = new Helm(this)
+    def azure = new Azure(this)
 
     pipeline {
 
@@ -30,6 +32,8 @@ def call() {
              GIT_SHORT_SHA          = ''
              DOCKERFILE_PATH        = ''    
              BUILD_CONTEXT          = ''
+             ACR_NAME               = ''
+             ACR_CREDENTIALS        = ''
         }
 
         stages {
@@ -44,6 +48,9 @@ def call() {
                         DOCKERHUB_CREDENTIALS  = props.DOCKERHUB_CREDENTIALS
                         DOCKERFILE_PATH        = props.DOCKERFILE_PATH   
                         BUILD_CONTEXT          = props.BUILD_CONTEXT
+                        ACR_NAME               = props.ACR_NAME 
+                        ACR_CREDENTIALS        = props.ACR_CREDENTIALS
+                        ACR_IMAGE_TAG          = props.ACR_IMAGE_TAG
 
                     }
                 }
@@ -55,6 +62,8 @@ def call() {
                     script {
                         GIT_SHORT_SHA = sh(script: 'git rev-parse --short HEAD', returnStdout: true).trim()
                         IMAGE_TAG = "${DOCKERHUB_USER}/${IMAGE_NAME}:${GIT_SHORT_SHA}"
+                        ACR_IMAGE_TAG ="${ACR_NAME}.azurecr.io/${IMAGE_NAME}:${GIT_SHORT_SHA}"
+
                     }
                 }
             }
@@ -75,6 +84,14 @@ def call() {
                 }
             }
 
+            stage('ACR push') {
+                steps {
+                    script {
+                        azure.acr_push(ACR_IMAGE_TAG, ACR_CREDENTIALS, ACR_NAME)
+                    }
+                }
+            }
+
             stage('Helm Deploy') {
                 steps {
                     script {
@@ -89,6 +106,7 @@ def call() {
             always {
                 script {
                     docker.docker_cleanup(IMAGE_TAG)
+                    azure.acr_cleanup(ACR_IMAGE_TAG, ACR_NAME)
                 }
             }
         }

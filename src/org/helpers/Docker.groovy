@@ -3,7 +3,7 @@ package org.helpers
 class Docker {
 
     def steps
-    //pass in the pipeline steps so we can run sh, echo etc
+    //pass in the pipeline steps so we can run sh cmds
     Docker(steps) {
         this.steps = steps
     }
