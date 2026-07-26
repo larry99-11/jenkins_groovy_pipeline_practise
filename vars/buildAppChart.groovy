@@ -130,7 +130,7 @@ def call() {
                     script {
                         if (params.ENVIRONMENT == 'local') {
                             echo "Deploying to local kind cluster..."
-                            helm.deploy(IMAGE_NAME, HELM_CHART_DIR, "${DOCKERHUB_USER}/${IMAGE_NAME}", GIT_SHORT_SHA, KUBE_NAMESPACE, 'ClusterIP'). // we can pramameterise this at the top
+                            helm.deploy(IMAGE_NAME, HELM_CHART_DIR, "${DOCKERHUB_USER}/${IMAGE_NAME}", GIT_SHORT_SHA, KUBE_NAMESPACE, 'ClusterIP') // we can pramameterise this at the top
                         } else if (params.ENVIRONMENT == 'aks') {
                             echo "Deploying to AKS..."
                             helm.deploy(IMAGE_NAME, HELM_CHART_DIR, "${ACR_NAME}.azurecr.io/${IMAGE_NAME}", GIT_SHORT_SHA, KUBE_NAMESPACE, 'LoadBalancer')
