@@ -15,6 +15,7 @@ class Helm {
                 --set service.type=${serviceType} \
                 --namespace ${namespace} \
                 --create-namespace \
+                --timeout 10m \
                 --wait
         """
     }
