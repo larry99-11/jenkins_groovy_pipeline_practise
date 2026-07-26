@@ -24,7 +24,7 @@ def call() {
 
         agent any
 
-    }
+    
 
         // Defining environment 
         environment {
@@ -151,5 +151,6 @@ def call() {
                 }
             }
         }
+    }
 
 }
