@@ -29,8 +29,20 @@ az deployment sub create \
 #  --name aksresourcekube \
 #  --resource-group rg-gowebapp-dev
 
+# refresh you kube config
+#az aks get-credentials \
+#  --name aksresourcekube \
+#  --resource-group rg-gowebapp-dev \
+#  --overwrite-existing
+
 # deleting aks
 #az aks delete \
 #  --name aksresourcekube \
 #  --resource-group rg-gowebapp-dev \
 #  --yes
+
+# deleting everything
+#az group delete \
+#  --name rg-gowebapp-dev \
+#  --yes \
+#  --no-wait    # ← returns immediately, deletion happens in background

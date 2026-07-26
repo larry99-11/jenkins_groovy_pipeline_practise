@@ -3,12 +3,12 @@ using '../dev/main.bicep'
 
 // Resource group params
 param resourceGroupName = 'rg-gowebapp-dev'
-param location = 'uksouth'
+param location = 'ukwest'
 
 // AKS params
 param aksResourceName = 'aksresourcekube'
 
-param aksNodeVmSize = 'standard_b2als_v2'
+param aksNodeVmSize = 'Standard_D2s_v3'
 param aksSku = 'Base'
 param aksTier = 'Free'
 param aksDnsPrefix = 'aksdns'

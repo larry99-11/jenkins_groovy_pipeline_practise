@@ -7,11 +7,12 @@ class Helm {
         this.steps = steps
     }
 
-    def deploy(String releaseName, String chartDir, String imageRepo, String imageTag, String namespace){
+    def deploy(String releaseName, String chartDir, String imageRepo, String imageTag, String namespace, String serviceType){
         steps.sh """
             helm upgrade --install ${releaseName} ${chartDir} \
                 --set image.repository=${imageRepo} \
                 --set image.tag=${imageTag} \
+                --set service.type=${serviceType} \
                 --namespace ${namespace} \
                 --create-namespace \
                 --wait
